@@ -84,3 +84,12 @@ void Server::handleCommand() {
         }
     }
 }
+
+void Server::handleSend() {
+    for (auto client : _clientVector) {
+        if (client.events == POLLOUT) {
+            write(client.controlFd, client.responseBuffer.c_str(), client.responseBuffer.size());
+            client.responseBuffer.clear();
+        }
+    }
+}

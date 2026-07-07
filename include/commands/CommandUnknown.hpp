@@ -4,19 +4,18 @@
 ** File description:
 ** CommandUnknown.hpp
 */
-#ifndef COMMANDUNKNOWNG_HPP
-#define COMMANDUNKNOWNG_HPP
+#ifndef COMMANDUNKNOWN_HPP
+#define COMMANDUNKNOWN_HPP
 
 #include "ACommand.hpp"
-#include <string>
 
 class CommandUnknown : public ACommand {
   public:
     CommandUnknown() = default;
     ~CommandUnknown() override = default;
 
-    void execute(const std::string& args) override {
-        printf("Error: Unknown command or bad parameters received");
+    void execute(const std::string& args, ClientSession client) override {
+        printf("Error: Client %s received an unknown command or bad parameters.\n", client.username);
     }
 };
 

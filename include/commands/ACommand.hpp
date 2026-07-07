@@ -8,11 +8,13 @@
 #ifndef ACOMMAND_HPP
     #define ACOMMAND_HPP
     #include <string>
+    #include <sstream>
+    #include "ServerStructures.hpp"
 
 class ACommand {
     public:
         virtual ~ACommand() = default;
-        virtual void execute(const std::string& args) = 0;
+        virtual void execute(const std::string& args, ClientSession client) = 0;
 };
 
 #endif /* ACOMMAND_HPP */
