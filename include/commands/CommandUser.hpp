@@ -26,7 +26,7 @@ class CommandUser : public ACommand {
         client.responseBuffer = "331 User name okay, need password.\n";
         return;
       }
-      //throw error;
+      client.responseBuffer = "501 Syntax error in parameters or arguments.\n";
     }
 };
 

@@ -30,7 +30,7 @@ class CommandPass : public ACommand {
         client.responseBuffer = "230 User logged in, proceed.\n";
         return;
       }
-      //throw error;
+      client.responseBuffer = "501 Syntax error in parameters or arguments.\n";
     }
 };
 
