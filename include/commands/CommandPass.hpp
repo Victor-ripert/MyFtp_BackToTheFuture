@@ -19,11 +19,15 @@ class CommandPass : public ACommand {
         client.responseBuffer = "230 User logged in, proceed.\n";
         return;
       }
+      if (client.username == "") {
+        client.responseBuffer = "332 Need account for login.\n";
+        return;
+      }
       std::istringstream iss(args);
-      std::string username;
-      if (!(iss >> username)) {
-        client.username == username;
-        client.responseBuffer = "331 User name okay, need password.\n";
+      std::string password;
+      if (!(iss >> password)) {
+        client.loggedIn = true;
+        client.responseBuffer = "230 User logged in, proceed.\n";
         return;
       }
       //throw error;
