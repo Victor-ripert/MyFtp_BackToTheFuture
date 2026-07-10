@@ -25,11 +25,13 @@ class Server {
         Server(int port);
         ~Server();
         void addSocketToPoll(Socket obj);
+        static void addSocketToPollArray(Socket obj, std::vector<struct pollfd>& pollArray);
         void doPoll();
         void acceptClient();
         void handleEvent();
         void handleCommand();
         void handleSend();
+        static int findUnusedPort(int port, std::vector<struct pollfd> _pollArray, int fd);
 };
 
 #endif /* SERVER_HPP */

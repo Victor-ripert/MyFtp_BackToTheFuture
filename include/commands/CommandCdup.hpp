@@ -14,7 +14,7 @@ class CommandCdup : public ACommand {
     CommandCdup() = default;
     ~CommandCdup() override = default;
 
-    void execute(const std::string& args, ClientSession client) override {
+    void execute(const std::string& args, ClientSession client, std::vector<struct pollfd>& pollArray) override {
       if (!client.loggedIn) {
         client.responseBuffer = "530 Not logged in.\n";
         return;

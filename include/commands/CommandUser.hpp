@@ -14,7 +14,7 @@ class CommandUser : public ACommand {
     CommandUser() = default;
     ~CommandUser() override = default;
 
-    void execute(const std::string& args, ClientSession client) override {
+    void execute(const std::string& args, ClientSession client, std::vector<struct pollfd>& pollArray) override {
       if (client.loggedIn) {
         client.responseBuffer = "230 User logged in, proceed.\n";
         return;
@@ -22,7 +22,7 @@ class CommandUser : public ACommand {
       std::istringstream iss(args);
       std::string username;
       if (!(iss >> username)) {
-        client.username == username;
+        client.username = username;
         client.responseBuffer = "331 User name okay, need password.\n";
         return;
       }

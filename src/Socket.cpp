@@ -27,3 +27,7 @@ int Socket::getPollFdIndex() {
 void Socket::addPollFdIndex(int index) {
     _pollfdIndex = index;
 }
+
+struct sockaddr_in Socket::getAdress() {
+    return _address;
+}

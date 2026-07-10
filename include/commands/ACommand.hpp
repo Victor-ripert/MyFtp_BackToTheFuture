@@ -14,7 +14,7 @@
 class ACommand {
     public:
         virtual ~ACommand() = default;
-        virtual void execute(const std::string& args, ClientSession client) = 0;
+        virtual void execute(const std::string& args, ClientSession client, std::vector<struct pollfd>& pollArray) = 0;
 };
 
 #endif /* ACOMMAND_HPP */

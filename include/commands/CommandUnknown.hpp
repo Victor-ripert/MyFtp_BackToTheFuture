@@ -14,7 +14,7 @@ class CommandUnknown : public ACommand {
     CommandUnknown() = default;
     ~CommandUnknown() override = default;
 
-    void execute(const std::string& args, ClientSession client) override {
+    void execute(const std::string& args, ClientSession client, std::vector<struct pollfd>& pollArray) override {
         printf("Error: Client %s received an unknown command or bad parameters.\n", client.username);
     }
 };

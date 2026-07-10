@@ -18,6 +18,13 @@ void Server::addSocketToPoll(Socket obj) {
     _pollArray.push_back(newPollFd);
 }
 
+void Server::addSocketToPollArray(Socket obj, std::vector<struct pollfd>& pollArray) {
+    struct pollfd newPollFd;
+    newPollFd.fd = obj.getSocketFd();
+    newPollFd.events = POLLIN | POLLPRI | POLLOUT;
+    pollArray.push_back(newPollFd);
+}
+
 void Server::doPoll() {
     poll(_pollArray.data(), _pollArray.size(), 5000);
 }
@@ -37,8 +44,8 @@ void Server::acceptClient() {
 }
 
 void Server::handleEvent() {
-    for (auto client : _clientVector) {
-        for (auto pollClient : _pollArray) {
+    for (auto& client : _clientVector) {
+        for (auto& pollClient : _pollArray) {
             if (client.controlFd == pollClient.fd) {
                 client.events = pollClient.events;
                 switch (pollClient.events) {
@@ -67,7 +74,7 @@ void Server::handleCommand() {
     char buffer[4096];
     ssize_t bytesRead = 0;
 
-    for (auto client : _clientVector) {
+    for (auto& client : _clientVector) {
         if (client.events == POLLIN) {
             bytesRead = read(client.controlFd, buffer, sizeof(buffer) - 1);
             if (bytesRead > 0) {
@@ -80,16 +87,25 @@ void Server::handleCommand() {
             // search in unordered map for cmd
             FactoryCommands factory;
             auto command = factory.getCommand(cmd);
-            command.execute(args);
+            command.execute(args, client, _pollArray);
         }
     }
 }
 
 void Server::handleSend() {
-    for (auto client : _clientVector) {
+    for (auto& client : _clientVector) {
         if (client.events == POLLOUT) {
             write(client.controlFd, client.responseBuffer.c_str(), client.responseBuffer.size());
             client.responseBuffer.clear();
         }
     }
+}
+
+int Server::findUnusedPort(int port, std::vector<struct pollfd> pollArray, int fd) {
+    for (int i = 0; i < pollArray.size(); i++) {
+        if (pollArray[i].fd == fd) {
+            return port + i;
+        }
+    }
+    return port;
 }

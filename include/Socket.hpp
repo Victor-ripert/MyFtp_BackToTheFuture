@@ -25,6 +25,7 @@ class Socket {
         ~Socket();
         int getSocketFd();
         int getPollFdIndex();
+        struct sockaddr_in getAdress();
         void addPollFdIndex(int index);
 };
 

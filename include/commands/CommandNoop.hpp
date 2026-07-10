@@ -14,7 +14,7 @@ class CommandNoop : public ACommand {
     CommandNoop() = default;
     ~CommandNoop() override = default;
 
-    void execute(const std::string& args, ClientSession client) override {
+    void execute(const std::string& args, ClientSession client, std::vector<struct pollfd>& pollArray) override {
       client.responseBuffer = "200 Command okay.\n";
     }
 };
