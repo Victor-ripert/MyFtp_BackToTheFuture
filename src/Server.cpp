@@ -47,24 +47,24 @@ void Server::handleEvent() {
     for (auto& client : _clientVector) {
         for (auto& pollClient : _pollArray) {
             if (client.controlFd == pollClient.fd) {
-                client.events = pollClient.events;
-                switch (pollClient.events) {
-                    case POLLIN :
-                        //read data
-                        continue;
-                    case POLLOUT :
-                        // Writing possible;
-                        continue;
-                    case POLLERR :
-                        // Handl error
-                        continue;
-                    case POLLHUP :
-                        // close the clientSession
-                        continue;
-                    default:
-                        // if not found;
-                        continue;
-                }
+                client.events = pollClient.revents;
+                // switch (pollClient.revents) {
+                //     case POLLIN :
+                //         //read data
+                //         continue;
+                //     case POLLOUT :
+                //         // Writing possible;
+                //         continue;
+                //     case POLLERR :
+                //         // Handl error
+                //         continue;
+                //     case POLLHUP :
+                //         // close the clientSession
+                //         continue;
+                //     default:
+                //         // if not found;
+                //         continue;
+                // }
             }
         }
     }
